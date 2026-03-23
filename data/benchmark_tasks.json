@@ -1,0 +1,134 @@
+[
+  {
+    "task_id": "T1",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a two-day Boston trip for a student on a budget.",
+      "Create a low-cost two-day itinerary for a student visiting Boston.",
+      "Help me organize a budget-friendly two-day visit to Boston as a student.",
+      "Build a cheap two-day Boston travel plan for a student traveler."
+    ]
+  },
+  {
+    "task_id": "T2",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a weekend trip to New York City with cheap food and transportation.",
+      "Create a low-cost NYC weekend itinerary that keeps food and transit affordable.",
+      "Help me organize a budget weekend in New York with inexpensive meals and travel.",
+      "Build a weekend New York plan focused on low-cost transportation and food."
+    ]
+  },
+  {
+    "task_id": "T3",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a one-day Amherst-to-Boston trip using only public transportation.",
+      "Create a same-day Amherst to Boston itinerary that relies entirely on public transit.",
+      "Help me organize a day trip from Amherst to Boston without using a car.",
+      "Build a one-day Boston visit plan starting from Amherst with only buses or trains."
+    ]
+  },
+  {
+    "task_id": "T4",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on transformer model pruning.",
+      "Build a step-by-step plan for reviewing research on pruning transformer models.",
+      "Help me organize a literature survey on transformer pruning methods.",
+      "Make a research reading plan focused on model pruning in transformers."
+    ]
+  },
+  {
+    "task_id": "T5",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on deceptive review detection using NLP.",
+      "Build a plan for surveying research on fake review detection with NLP methods.",
+      "Help me organize a literature review on deceptive opinion spam detection.",
+      "Make a reading plan for research on detecting deceptive reviews with language techniques."
+    ]
+  },
+  {
+    "task_id": "T6",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a research plan for surveying LLM-based agents.",
+      "Build a literature survey plan focused on large language model agents.",
+      "Help me organize a review of recent research on LLM agents.",
+      "Make a reading and synthesis plan for papers on LLM-based agent systems."
+    ]
+  },
+  {
+    "task_id": "T7",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to debug a Python import error in a project environment.",
+      "Create a step-by-step plan for fixing a Python module import problem.",
+      "Help me organize a debugging plan for a broken Python import in my project.",
+      "Build a troubleshooting plan for resolving a Python import error."
+    ]
+  },
+  {
+    "task_id": "T8",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to fix a failing REST API integration in a web app.",
+      "Create a debugging plan for a web application whose REST API calls are failing.",
+      "Help me organize a step-by-step approach to troubleshoot a broken API integration.",
+      "Build a plan for diagnosing and fixing REST API integration issues in a web app."
+    ]
+  },
+  {
+    "task_id": "T9",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to debug a React page that renders blank.",
+      "Create a troubleshooting plan for a React app screen that shows nothing.",
+      "Help me organize a debugging workflow for a blank React page.",
+      "Build a step-by-step plan to diagnose why a React view is not rendering."
+    ]
+  },
+  {
+    "task_id": "T10",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a one-week study plan for a machine learning exam.",
+      "Build a 7-day preparation plan for an upcoming machine learning test.",
+      "Help me organize a week-long schedule to prepare for my machine learning exam.",
+      "Make a one-week exam prep plan for machine learning."
+    ]
+  },
+  {
+    "task_id": "T11",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a 10-day preparation plan for a coding interview.",
+      "Build a ten-day study schedule for getting ready for a programming interview.",
+      "Help me organize a 10-day coding interview prep plan.",
+      "Make a step-by-step ten-day plan to prepare for a technical coding interview."
+    ]
+  },
+  {
+    "task_id": "T12",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a study schedule for three final exams in one week.",
+      "Build a one-week study plan covering three different finals.",
+      "Help me organize my preparation for three exams happening in the same week.",
+      "Make a balanced weekly study schedule for three final exams."
+    ]
+  }
+]
