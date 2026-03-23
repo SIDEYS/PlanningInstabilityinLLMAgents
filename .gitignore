@@ -3,3 +3,4 @@ __pycache__/
 .env
 data/runs_base.jsonl
 data/runs_tool.jsonl
+.DS_Store
