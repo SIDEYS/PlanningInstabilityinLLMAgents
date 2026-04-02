@@ -24,15 +24,15 @@ def load_benchmark(path: Path) -> list[dict]:
 
 
 def extract_json(text: str) -> Dict[str, Any]:
-    """
-    Tries to parse JSON robustly, including accidental markdown fences.
-    """
     text = text.strip()
 
     if text.startswith("```"):
-        text = text.strip("`")
         lines = text.splitlines()
-        if lines and lines[0].lower().strip() == "json":
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        if lines and lines[0].strip().lower() == "json":
             lines = lines[1:]
         text = "\n".join(lines).strip()
 
@@ -55,29 +55,40 @@ def validate_plan(plan: Dict[str, Any], planner_type: str) -> bool:
             return False
         if planner_type == "tool" and "tool" not in step:
             return False
+
     return True
 
 
 def call_model(client: OpenAI, model: str, system_prompt: str, user_prompt: str) -> Dict[str, Any]:
-    response = client.chat.completions.create(
-        model=model,
-        temperature=0,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-    )
+    last_error = None
 
-    text = response.choices[0].message.content
-    plan = extract_json(text)
-    return plan
+    for attempt in range(3):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                temperature=0,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+            )
+
+            text = response.choices[0].message.content
+            return extract_json(text)
+
+        except Exception as e:
+            last_error = e
+            print(f"Retry {attempt + 1}/3 after error: {e}")
+            time.sleep(2)
+
+    raise RuntimeError(f"Model call failed after retries: {last_error}")
 
 
 def main() -> None:
     load_dotenv()
 
     api_key = os.getenv("OPENAI_API_KEY")
-    model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
+    model = os.getenv("OPENAI_MODEL", "gpt-5.4")
 
     if not api_key:
         raise ValueError("OPENAI_API_KEY not found in .env")
@@ -101,7 +112,6 @@ def main() -> None:
 
     records = []
     total_runs = sum(len(task["paraphrases"]) for task in benchmark)
-
     progress = tqdm(total=total_runs, desc=f"Generating {planner_type} plans")
 
     for task in benchmark:
@@ -111,6 +121,7 @@ def main() -> None:
                 "family": task["family"],
                 "complexity": task["complexity"],
                 "planner": planner_type,
+                "model": model,
                 "paraphrase_id": idx,
                 "prompt": prompt,
             }
@@ -131,7 +142,7 @@ def main() -> None:
 
             records.append(record)
             progress.update(1)
-            time.sleep(0.3)
+            time.sleep(0.5)
 
     progress.close()
 

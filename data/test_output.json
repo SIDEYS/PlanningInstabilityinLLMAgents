@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "step_id": 1,
+      "action": "set_budget_and_priorities"
+    },
+    {
+      "step_id": 2,
+      "action": "choose_affordable_transport_and_lodging"
+    },
+    {
+      "step_id": 3,
+      "action": "build_day_one_free_attractions"
+    },
+    {
+      "step_id": 4,
+      "action": "build_day_two_budget_meals_and_sites"
+    },
+    {
+      "step_id": 5,
+      "action": "prepare_student_discounts_and_packing"
+    }
+  ]
+}

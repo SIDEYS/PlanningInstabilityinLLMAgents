@@ -15,9 +15,41 @@ Allowed tools:
 
 Rules:
 - Use short snake_case action names.
-- Produce between 3 and 6 steps.
+- Use 3 to 6 steps.
 - Assign exactly one allowed tool to each step.
-- Keep the plan high-level and goal-directed.
+- Keep actions high-level, generic, and reusable across tasks.
+- Do NOT include task-specific details like days, locations, file names, or numbers.
+- Avoid overly specific or descriptive action names.
+
+Use a consistent action vocabulary such as:
+- define_goal
+- gather_information
+- analyze_problem
+- plan_solution
+- execute_solution
+- verify_results
+- optimize_plan
+
+Tool usage guidelines:
+- Use "search_web" for external information gathering
+- Use "read_docs" for reading structured or provided content
+- Use "code_editor" for coding or debugging tasks
+- Use "calendar" for scheduling or planning time
+- Use "maps" for location-based planning
+- Use "none" when no tool is needed
+
+Bad examples (DO NOT DO THIS):
+- build_day_one_free_attractions
+- debug_line_42_index_error
+- search_boston_free_food_options_day_two
+
+Good examples:
+- define_goal
+- gather_information
+- plan_solution
+- execute_solution
+- verify_results
+
 - Do not include explanations, prose, or markdown.
 - Do not wrap the JSON in code fences.
 - Return valid JSON only.

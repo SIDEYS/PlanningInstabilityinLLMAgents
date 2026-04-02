@@ -1,7 +1,7 @@
 import itertools
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import pandas as pd
 from rapidfuzz.distance import Levenshtein
@@ -59,7 +59,7 @@ def exact_plan_match(a: dict[str, Any], b: dict[str, Any]) -> int:
     return int(a == b)
 
 
-def tool_agreement(a: dict[str, Any], b: dict[str, Any]) -> float | None:
+def tool_agreement(a: dict[str, Any], b: dict[str, Any]) -> Optional[float]:
     a_steps = a["steps"]
     b_steps = b["steps"]
 

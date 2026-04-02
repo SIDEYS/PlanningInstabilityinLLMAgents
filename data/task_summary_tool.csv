@@ -1,0 +1,13 @@
+task_id,family,complexity,planner,action_jaccard_mean,sequence_similarity_mean,step_count_diff_mean,exact_plan_match_rate,tool_agreement_mean
+T1,travel,simple,tool,0.8333333333333334,0.9,0.0,0.5,1.0
+T10,study,simple,tool,1.0,1.0,0.0,1.0,1.0
+T11,study,simple,tool,0.7777777777777777,0.7333333333333334,0.0,0.3333333333333333,0.7333333333333334
+T12,study,simple,tool,1.0,1.0,0.0,0.3333333333333333,0.8666666666666667
+T2,travel,simple,tool,1.0,1.0,0.0,1.0,1.0
+T3,travel,simple,tool,1.0,1.0,0.0,1.0,1.0
+T4,research,simple,tool,0.9166666666666666,0.9166666666666666,0.5,0.16666666666666666,0.7666666666666666
+T5,research,simple,tool,0.8055555555555557,0.7833333333333333,0.5,0.16666666666666666,0.8333333333333334
+T6,research,simple,tool,1.0,1.0,0.0,0.5,0.7999999999999999
+T7,debugging,simple,tool,1.0,1.0,0.0,1.0,1.0
+T8,debugging,simple,tool,1.0,1.0,0.0,0.16666666666666666,0.7666666666666666
+T9,debugging,simple,tool,1.0,1.0,0.0,0.3333333333333333,0.8666666666666667

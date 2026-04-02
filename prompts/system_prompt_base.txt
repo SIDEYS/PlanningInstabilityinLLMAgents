@@ -12,8 +12,32 @@ Return JSON with exactly this schema:
 
 Rules:
 - Use short snake_case action names.
-- Produce between 3 and 6 steps.
-- Keep the plan high-level and goal-directed.
+- Use 3 to 6 steps.
+- Keep actions high-level and reusable across tasks.
+- Do NOT include task-specific details like days, locations, or numbers.
+- Avoid overly specific or descriptive action names.
+
+Use a consistent and generic action vocabulary such as:
+- define_goal
+- gather_information
+- plan_steps
+- execute_plan
+- verify_results
+- optimize_plan
+
+Bad examples (DO NOT DO THIS):
+- build_day_one_free_attractions
+- plan_second_day_food
+- debug_python_index_error_line_32
+
+Good examples:
+- define_goal
+- analyze_problem
+- search_information
+- plan_solution
+- execute_solution
+- validate_output
+
 - Do not include explanations, prose, or markdown.
 - Do not wrap the JSON in code fences.
 - Return valid JSON only.
