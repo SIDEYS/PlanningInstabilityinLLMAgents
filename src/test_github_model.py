@@ -38,7 +38,7 @@ def main() -> None:
             {
                 "role": "user",
                 "content": "Plan a two-day Boston trip for a student on a budget."
-            },
+            },  
         ],
     )
 
