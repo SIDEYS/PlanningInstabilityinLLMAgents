@@ -1,78 +1,61 @@
-from pathlib import Path
-
-import matplotlib.pyplot as plt
+import json
 import pandas as pd
 
-
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data"
-FIG_DIR = ROOT / "figures"
-FIG_DIR.mkdir(exist_ok=True)
-
-
-def plot_family_bar(df: pd.DataFrame, metric: str, filename: str, ylabel: str) -> None:
-    family_means = df.groupby("family", as_index=False)[metric].mean()
-
-    plt.figure(figsize=(8, 5))
-    plt.bar(family_means["family"], family_means[metric])
-    plt.xlabel("Task family")
-    plt.ylabel(ylabel)
-    plt.title(f"{ylabel} by task family")
-    plt.tight_layout()
-    plt.savefig(FIG_DIR / filename, dpi=200)
-    plt.close()
+from . import config
+from .metrics import compute_pairwise, family_summary, task_summary
+from .statistical_tests import run_all_tests
+from .visualize import generate_all_figures
 
 
-def plot_task_box(pairwise_df: pd.DataFrame, metric: str, filename: str, ylabel: str) -> None:
-    families = sorted(pairwise_df["family"].unique())
-    data = [pairwise_df[pairwise_df["family"] == fam][metric].dropna().values for fam in families]
-
-    plt.figure(figsize=(8, 5))
-    plt.boxplot(data, tick_labels=families)
-    plt.xlabel("Task family")
-    plt.ylabel(ylabel)
-    plt.title(f"{ylabel} distribution by family")
-    plt.tight_layout()
-    plt.savefig(FIG_DIR / filename, dpi=200)
-    plt.close()
+def _print_section(title):
+    print(f"\n{'=' * 12} {title} {'=' * 12}")
 
 
-def main() -> None:
-    planner_type = input("Enter planner type ('base' or 'tool'): ").strip().lower()
+def main():
+    runs_base = config.DATA_DIR / "runs_base.jsonl"
+    runs_tool = config.DATA_DIR / "runs_tool.jsonl"
 
-    pairwise_df = pd.read_csv(DATA_DIR / f"pairwise_metrics_{planner_type}.csv")
-    summary_df = pd.read_csv(DATA_DIR / f"task_summary_{planner_type}.csv")
+    if not runs_base.exists() or not runs_tool.exists():
+        raise FileNotFoundError(
+            "data/runs_base.jsonl or data/runs_tool.jsonl missing. "
+            "Run scripts/run_all_experiments.py first.")
 
-    plot_family_bar(
-        summary_df,
-        metric="action_jaccard_mean",
-        filename=f"action_jaccard_{planner_type}.png",
-        ylabel="Mean action-set similarity",
-    )
+    pw_base = compute_pairwise(runs_base, has_tools=False)
+    pw_tool = compute_pairwise(runs_tool, has_tools=True)
+    pw_base.to_csv(config.DATA_DIR / "pairwise_metrics_base.csv", index=False)
+    pw_tool.to_csv(config.DATA_DIR / "pairwise_metrics_tool.csv", index=False)
 
-    plot_family_bar(
-        summary_df,
-        metric="sequence_similarity_mean",
-        filename=f"sequence_similarity_{planner_type}.png",
-        ylabel="Mean sequence similarity",
-    )
+    ts_base = task_summary(pw_base, has_tools=False)
+    ts_tool = task_summary(pw_tool, has_tools=True)
+    ts_base.to_csv(config.DATA_DIR / "task_summary_base.csv", index=False)
+    ts_tool.to_csv(config.DATA_DIR / "task_summary_tool.csv", index=False)
 
-    plot_task_box(
-        pairwise_df,
-        metric="step_count_diff",
-        filename=f"step_count_diff_{planner_type}.png",
-        ylabel="Step count difference",
-    )
+    fs_base = family_summary(ts_base, has_tools=False)
+    fs_tool = family_summary(ts_tool, has_tools=True)
 
-    if planner_type == "tool":
-        plot_family_bar(
-            summary_df,
-            metric="tool_agreement_mean",
-            filename="tool_agreement_tool.png",
-            ylabel="Mean tool agreement",
-        )
+    fs_base["planner"] = "base"
+    fs_tool["planner"] = "tool"
+    pd.concat([fs_base, fs_tool], ignore_index=True) \
+        .to_csv(config.DATA_DIR / "results_summary.csv", index=False)
 
-    print(f"Saved figures to: {FIG_DIR}")
+    pd.options.display.float_format = "{:.3f}".format
+    _print_section("Family summary (Base)")
+    print(fs_base.to_string(index=False))
+    _print_section("Family summary (Tool-aware)")
+    print(fs_tool.to_string(index=False))
+
+    test_results = run_all_tests(ts_base, ts_tool)
+    with (config.DATA_DIR / "statistical_results.json").open("w") as f:
+        json.dump(test_results, f, indent=2)
+
+    _print_section("Hypothesis tests")
+    print(json.dumps(test_results, indent=2))
+
+    generate_all_figures(pw_base, ts_base, fs_base,
+                         pw_tool, ts_tool, fs_tool,
+                         config.FIGURES_DIR)
+    print(f"\nFigures -> {config.FIGURES_DIR}")
+    print(f"Data    -> {config.DATA_DIR}")
 
 
 if __name__ == "__main__":
