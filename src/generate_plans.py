@@ -33,7 +33,7 @@ def _call_llm(client: OpenAI, system_prompt: str, user_prompt: str,
             resp = client.chat.completions.create(
                 model=config.MODEL_NAME,
                 temperature=config.TEMPERATURE,
-                max_tokens=config.MAX_TOKENS,
+                max_completion_tokens=config.MAX_TOKENS,
                 response_format={"type": "json_object"},
                 messages=[
                     {"role": "system", "content": system_prompt},
