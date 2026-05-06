@@ -12,7 +12,8 @@ from src.generate_plans import generate_all_plans
 def main():
     with config.BENCHMARK_PATH.open("r") as f:
         benchmark = json.load(f)
-    n_paras = len(next(iter(benchmark.values()))["paraphrases"])
+
+    n_paras = len(benchmark[0]["paraphrases"]) if benchmark else 0
     print(f"Loaded benchmark: {len(benchmark)} tasks x {n_paras} paraphrases.")
 
     generate_all_plans(benchmark, "base",

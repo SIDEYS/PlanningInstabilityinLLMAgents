@@ -75,7 +75,8 @@ def generate_all_plans(benchmark: dict, planner: str, output_path: Path,
         print(f"[{planner}] Resuming: {len(completed)} records already complete.")
 
     todo = []
-    for task_id, task in benchmark.items():
+    for task in benchmark:
+        task_id = task["task_id"]
         for idx, paraphrase in enumerate(task["paraphrases"]):
             if (task_id, idx) not in completed:
                 todo.append((task_id, task["family"], idx, paraphrase))
