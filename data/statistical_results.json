@@ -1,0 +1,134 @@
+{
+  "base": {
+    "H2_1": {
+      "action_sim": {
+        "observed_diff": -0.044642857142857206,
+        "p_value": 0.10818918108189181,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": -0.4384573966297705,
+        "alternative": "less"
+      },
+      "seq_sim": {
+        "observed_diff": -0.07951388888888888,
+        "p_value": 0.0072992700729927005,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": -0.9286891240259052,
+        "alternative": "less"
+      }
+    },
+    "H2_2": {
+      "action_sim": {
+        "metric": "action_sim",
+        "rho": -0.09885774345945234,
+        "p_value": 0.295186293449353,
+        "alternative": "less",
+        "n": 32
+      },
+      "seq_sim": {
+        "metric": "seq_sim",
+        "rho": -0.32559063140584876,
+        "p_value": 0.03449763203712768,
+        "alternative": "less",
+        "n": 32
+      }
+    },
+    "H2_3": {
+      "study_vs_research_step_diff": {
+        "observed_diff": 0.04166666666666663,
+        "p_value": 0.384961503849615,
+        "n_a": 8,
+        "n_b": 8,
+        "cohens_d": 0.16666666666666652,
+        "alternative": "greater"
+      },
+      "rho_jaccard": {
+        "metric": "action_sim",
+        "rho": -0.09885774345945234,
+        "p_value": 0.295186293449353,
+        "alternative": "less",
+        "n": 32
+      },
+      "rho_step_diff": {
+        "metric": "step_diff",
+        "rho": 0.07404360971988655,
+        "p_value": 0.3435686289817884,
+        "alternative": "greater",
+        "n": 32
+      },
+      "fisher_z_dissociation": {
+        "z": -0.6601392340888861,
+        "p_value": 0.5091644830894893,
+        "rho1": -0.09885774345945234,
+        "rho2": 0.07404360971988655
+      }
+    }
+  },
+  "tool": {
+    "H2_1": {
+      "action_sim": {
+        "observed_diff": 0.04791666666666661,
+        "p_value": 0.9464053594640536,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": 0.6044265809117814,
+        "alternative": "less"
+      },
+      "seq_sim": {
+        "observed_diff": 0.04513888888888895,
+        "p_value": 0.9395060493950604,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": 0.5728677253204125,
+        "alternative": "less"
+      }
+    },
+    "H2_2": {
+      "action_sim": {
+        "metric": "action_sim",
+        "rho": -0.102507849126352,
+        "p_value": 0.28832819375660934,
+        "alternative": "less",
+        "n": 32
+      },
+      "seq_sim": {
+        "metric": "seq_sim",
+        "rho": -0.19677842516956104,
+        "p_value": 0.14019201370405057,
+        "alternative": "less",
+        "n": 32
+      }
+    },
+    "H2_3": {
+      "study_vs_research_step_diff": {
+        "observed_diff": -0.4375,
+        "p_value": 1.0,
+        "n_a": 8,
+        "n_b": 8,
+        "cohens_d": -2.504873298971914,
+        "alternative": "greater"
+      },
+      "rho_jaccard": {
+        "metric": "action_sim",
+        "rho": -0.102507849126352,
+        "p_value": 0.28832819375660934,
+        "alternative": "less",
+        "n": 32
+      },
+      "rho_step_diff": {
+        "metric": "step_diff",
+        "rho": 0.4018912329810118,
+        "p_value": 0.01130143270874802,
+        "alternative": "greater",
+        "n": 32
+      },
+      "fisher_z_dissociation": {
+        "z": -2.0135022928804305,
+        "p_value": 0.04406181399899478,
+        "rho1": -0.102507849126352,
+        "rho2": 0.4018912329810118
+      }
+    }
+  }
+}

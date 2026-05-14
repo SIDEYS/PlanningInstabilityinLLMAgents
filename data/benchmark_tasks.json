@@ -130,5 +130,225 @@
       "Help me organize my preparation for three exams happening in the same week.",
       "Make a balanced weekly study schedule for three final exams."
     ]
+  },
+  {
+    "task_id": "T13",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a three-day food-focused trip to Chicago.",
+      "Create a 3-day Chicago itinerary centered on local cuisine.",
+      "Help me organize a Chicago weekend trip emphasizing the food scene.",
+      "Build a culinary three-day visit plan for Chicago."
+    ]
+  },
+  {
+    "task_id": "T14",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a five-day solo backpacking trip through the Pacific Northwest.",
+      "Create a 5-day solo travel plan exploring Pacific Northwest hiking trails.",
+      "Help me organize a week-long backpacking itinerary for one person across the Pacific Northwest.",
+      "Build a 5-day solo outdoor trip plan in the Pacific Northwest."
+    ]
+  },
+  {
+    "task_id": "T15",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a family-friendly day trip to a US national park.",
+      "Create a one-day national park visit suitable for families with children.",
+      "Help me organize a kid-friendly single-day outing to a national park.",
+      "Build a one-day family excursion plan for a national park."
+    ]
+  },
+  {
+    "task_id": "T16",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a four-day cultural visit to Washington DC.",
+      "Create a 4-day Washington DC trip focused on museums and history.",
+      "Help me organize a culturally rich 4-day itinerary for Washington DC.",
+      "Build a four-day educational trip plan for DC."
+    ]
+  },
+  {
+    "task_id": "T17",
+    "family": "travel",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan a long weekend hiking trip in the White Mountains.",
+      "Create a 3-day White Mountains hiking itinerary for a long weekend.",
+      "Help me organize a multi-day hiking plan in New Hampshire's White Mountains.",
+      "Build a weekend hiking getaway plan for the White Mountains."
+    ]
+  },
+  {
+    "task_id": "T18",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on graph neural networks for drug discovery.",
+      "Build a plan for surveying research on GNN methods in pharmaceutical research.",
+      "Help me organize a literature review on graph neural networks applied to drug discovery.",
+      "Make a research reading plan covering GNN-based approaches in drug discovery."
+    ]
+  },
+  {
+    "task_id": "T19",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on retrieval-augmented generation.",
+      "Build a plan for surveying research on RAG methods for language models.",
+      "Help me organize a literature review on retrieval-augmented generation approaches.",
+      "Make a research reading plan focused on RAG techniques in NLP."
+    ]
+  },
+  {
+    "task_id": "T20",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a research plan on bias in computer vision datasets.",
+      "Build a plan for surveying literature on dataset bias in computer vision.",
+      "Help me organize a literature review on biases in image datasets used for CV.",
+      "Make a reading plan for research on fairness issues in vision datasets."
+    ]
+  },
+  {
+    "task_id": "T21",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on reinforcement learning from human feedback.",
+      "Build a plan for surveying research on RLHF methods.",
+      "Help me organize a literature review on reinforcement learning from human feedback.",
+      "Make a research reading plan focused on RLHF approaches for language models."
+    ]
+  },
+  {
+    "task_id": "T22",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to troubleshoot a memory leak in a Node.js server.",
+      "Create a debugging plan for diagnosing memory leaks in a Node.js backend.",
+      "Help me organize a workflow for tracking down memory leaks in a Node.js server.",
+      "Build a step-by-step plan to fix a Node.js memory leak."
+    ]
+  },
+  {
+    "task_id": "T23",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to debug a Docker container that exits immediately on startup.",
+      "Create a troubleshooting plan for a Docker container failing on launch.",
+      "Help me organize a debugging plan for a Docker container that crashes at startup.",
+      "Build a workflow for diagnosing Docker startup failures."
+    ]
+  },
+  {
+    "task_id": "T24",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to diagnose a slow SQL query in a Postgres database.",
+      "Create a debugging plan for a slow query in PostgreSQL.",
+      "Help me organize a workflow for identifying performance issues in a Postgres query.",
+      "Build a step-by-step plan to optimize a slow Postgres query."
+    ]
+  },
+  {
+    "task_id": "T25",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to debug a CI pipeline that intermittently fails on tests.",
+      "Create a troubleshooting plan for a flaky CI test pipeline.",
+      "Help me organize a debugging plan for an intermittently failing CI build.",
+      "Build a workflow to fix a flaky continuous integration pipeline."
+    ]
+  },
+  {
+    "task_id": "T26",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a four-week preparation plan for a system design interview.",
+      "Build a 4-week study schedule for system design interview prep.",
+      "Help me organize a month-long plan to prepare for a system design interview.",
+      "Make a four-week study schedule for system design interviews."
+    ]
+  },
+  {
+    "task_id": "T27",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a two-week study plan for an algorithms exam.",
+      "Build a 14-day preparation schedule for an algorithms test.",
+      "Help me organize a 2-week study plan for an algorithms final.",
+      "Make a fortnight-long prep plan for an algorithms exam."
+    ]
+  },
+  {
+    "task_id": "T28",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a five-day study schedule covering data structures.",
+      "Build a 5-day preparation plan for a data structures exam.",
+      "Help me organize a short-term study plan for data structures over 5 days.",
+      "Make a 5-day prep schedule for a data structures test."
+    ]
+  },
+  {
+    "task_id": "T29",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a three-week prep plan for a graduate statistics qualifier.",
+      "Build a 3-week study schedule for a stats qualifying exam.",
+      "Help me organize a 21-day plan to prepare for a graduate-level statistics qualifier.",
+      "Make a three-week prep schedule for a stats qualifier."
+    ]
+  },
+  {
+    "task_id": "T30",
+    "family": "study",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a six-day plan to learn the basics of cloud security.",
+      "Build a 6-day study schedule for cloud security fundamentals.",
+      "Help me organize a one-week (6-day) plan for learning intro cloud security.",
+      "Make a 6-day intro plan to cloud security basics."
+    ]
+  },
+  {
+    "task_id": "T31",
+    "family": "research",
+    "complexity": "simple",
+    "paraphrases": [
+      "Create a literature review plan on diffusion models for image generation.",
+      "Build a plan for surveying research on diffusion-based generative models.",
+      "Help me organize a literature review on diffusion models in computer vision.",
+      "Make a research reading plan focused on diffusion models for image synthesis."
+    ]
+  },
+  {
+    "task_id": "T32",
+    "family": "debugging",
+    "complexity": "simple",
+    "paraphrases": [
+      "Plan how to debug a CORS error between a frontend and a backend API.",
+      "Create a troubleshooting plan for a CORS issue blocking API requests.",
+      "Help me organize a debugging workflow for a cross-origin error in a web app.",
+      "Build a step-by-step plan to resolve a CORS error in a frontend-backend setup."
+    ]
   }
 ]

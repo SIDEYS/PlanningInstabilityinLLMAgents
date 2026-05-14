@@ -2,156 +2,111 @@ import json
 import os
 import time
 from pathlib import Path
-from typing import Any, Dict
 
 from dotenv import load_dotenv
 from openai import OpenAI
 from tqdm import tqdm
 
+from . import config
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data"
-PROMPTS_DIR = ROOT / "prompts"
-
-
-def load_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+load_dotenv()
 
 
-def load_benchmark(path: Path) -> list[dict]:
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+def _client() -> OpenAI:
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not set. Copy .env.example to .env first.")
+    return OpenAI(api_key=api_key)
 
 
-def extract_json(text: str) -> Dict[str, Any]:
-    text = text.strip()
-
-    if text.startswith("```"):
-        lines = text.splitlines()
-        if lines and lines[0].startswith("```"):
-            lines = lines[1:]
-        if lines and lines[-1].startswith("```"):
-            lines = lines[:-1]
-        if lines and lines[0].strip().lower() == "json":
-            lines = lines[1:]
-        text = "\n".join(lines).strip()
-
-    first = text.find("{")
-    last = text.rfind("}")
-    if first != -1 and last != -1:
-        text = text[first:last + 1]
-
-    return json.loads(text)
+def _load_prompt(path: Path) -> str:
+    if not path.exists():
+        raise FileNotFoundError(f"Prompt file missing: {path}")
+    return path.read_text(encoding="utf-8").strip()
 
 
-def validate_plan(plan: Dict[str, Any], planner_type: str) -> bool:
-    if "steps" not in plan or not isinstance(plan["steps"], list):
-        return False
-
-    for step in plan["steps"]:
-        if not isinstance(step, dict):
-            return False
-        if "step_id" not in step or "action" not in step:
-            return False
-        if planner_type == "tool" and "tool" not in step:
-            return False
-
-    return True
-
-
-def call_model(client: OpenAI, model: str, system_prompt: str, user_prompt: str) -> Dict[str, Any]:
-    last_error = None
-
-    for attempt in range(3):
+def _call_llm(client: OpenAI, system_prompt: str, user_prompt: str,
+              max_retries: int = 3) -> dict:
+    last_err = None
+    for attempt in range(max_retries):
         try:
-            response = client.chat.completions.create(
-                model=model,
-                temperature=0,
+            resp = client.chat.completions.create(
+                model=config.MODEL_NAME,
+                temperature=config.TEMPERATURE,
+                max_completion_tokens=config.MAX_TOKENS,
+                response_format={"type": "json_object"},
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt},
+                    {"role": "user",   "content": user_prompt},
                 ],
             )
-
-            text = response.choices[0].message.content
-            return extract_json(text)
-
+            return json.loads(resp.choices[0].message.content)
         except Exception as e:
-            last_error = e
-            print(f"Retry {attempt + 1}/3 after error: {e}")
-            time.sleep(2)
-
-    raise RuntimeError(f"Model call failed after retries: {last_error}")
+            last_err = e
+            time.sleep(2 ** attempt)
+    raise RuntimeError(f"LLM call failed after {max_retries} attempts: {last_err}")
 
 
-def main() -> None:
-    load_dotenv()
-
-    api_key = os.getenv("OPENAI_API_KEY")
-    model = os.getenv("OPENAI_MODEL", "gpt-5.4")
-
-    if not api_key:
-        raise ValueError("OPENAI_API_KEY not found in .env")
-
-    client = OpenAI(api_key=api_key)
-
-    benchmark = load_benchmark(DATA_DIR / "benchmark_tasks.json")
-
-    planner_type = input("Enter planner type ('base' or 'tool'): ").strip().lower()
-    if planner_type not in {"base", "tool"}:
-        raise ValueError("Planner type must be 'base' or 'tool'")
-
-    system_prompt_path = (
-        PROMPTS_DIR / "system_prompt_base.txt"
-        if planner_type == "base"
-        else PROMPTS_DIR / "system_prompt_tool.txt"
-    )
-    system_prompt = load_text(system_prompt_path)
-
-    output_path = DATA_DIR / f"runs_{planner_type}.jsonl"
-
-    records = []
-    total_runs = sum(len(task["paraphrases"]) for task in benchmark)
-    progress = tqdm(total=total_runs, desc=f"Generating {planner_type} plans")
-
-    for task in benchmark:
-        for idx, prompt in enumerate(task["paraphrases"], start=1):
-            record = {
-                "task_id": task["task_id"],
-                "family": task["family"],
-                "complexity": task["complexity"],
-                "planner": planner_type,
-                "model": model,
-                "paraphrase_id": idx,
-                "prompt": prompt,
-            }
-
+def _load_completed(path: Path) -> set:
+    completed = set()
+    if not path.exists():
+        return completed
+    with path.open("r") as f:
+        for line in f:
             try:
-                plan = call_model(client, model, system_prompt, prompt)
+                rec = json.loads(line)
+                completed.add((rec["task_id"], rec["paraphrase_idx"]))
+            except json.JSONDecodeError:
+                continue
+    return completed
 
-                if not validate_plan(plan, planner_type):
-                    raise ValueError("Plan failed schema validation")
 
-                record["plan"] = plan
-                record["status"] = "ok"
+def generate_all_plans(benchmark: dict, planner: str, output_path: Path,
+                       resume: bool = True) -> None:
+    if planner == "base":
+        system_prompt = _load_prompt(config.PROMPT_BASE)
+    elif planner == "tool":
+        system_prompt = _load_prompt(config.PROMPT_TOOL)
+    else:
+        raise ValueError(f"Unknown planner: {planner!r}")
 
+    completed = _load_completed(output_path) if resume else set()
+    if completed:
+        print(f"[{planner}] Resuming: {len(completed)} records already complete.")
+
+    todo = []
+    for task in benchmark:
+        task_id = task["task_id"]
+        for idx, paraphrase in enumerate(task["paraphrases"]):
+            if (task_id, idx) not in completed:
+                todo.append((task_id, task["family"], idx, paraphrase))
+
+    if not todo:
+        print(f"[{planner}] Nothing to do. All {len(completed)} records exist.")
+        return
+
+    print(f"[{planner}] Generating {len(todo)} new plans -> {output_path.name}")
+    client = _client()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with output_path.open("a") as f:
+        for task_id, family, idx, paraphrase in tqdm(todo, desc=f"gen-{planner}"):
+            try:
+                plan = _call_llm(client, system_prompt, paraphrase)
+                steps = plan.get("steps", [])
             except Exception as e:
-                record["plan"] = None
-                record["status"] = "error"
-                record["error"] = str(e)
+                print(f"  [skip] {task_id} p{idx}: {e}")
+                continue
 
-            records.append(record)
-            progress.update(1)
-            time.sleep(0.5)
+            record = {
+                "task_id":        task_id,
+                "family":         family,
+                "paraphrase_idx": idx,
+                "paraphrase":     paraphrase,
+                "planner":        planner,
+                "steps":          steps,
+            }
+            f.write(json.dumps(record) + "\n")
+            f.flush()
 
-    progress.close()
-
-    with open(output_path, "w", encoding="utf-8") as f:
-        for rec in records:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-
-    print(f"Saved results to: {output_path}")
-
-
-if __name__ == "__main__":
-    main()
+    print(f"[{planner}] Done. {output_path}")
