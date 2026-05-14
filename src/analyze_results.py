@@ -1,3 +1,6 @@
+"""End-to-end analysis: load runs -> metrics (lexical + semantic) -> stats -> figures.
+Run with: python -m src.analyze_results
+"""
 import json
 import pandas as pd
 
@@ -20,6 +23,8 @@ def main():
             "data/runs_base.jsonl or data/runs_tool.jsonl missing. "
             "Run scripts/run_all_experiments.py first.")
 
+    print("Computing pairwise metrics (this includes semantic similarity, "
+          "may take ~1 minute on CPU)...")
     pw_base = compute_pairwise(runs_base, has_tools=False)
     pw_tool = compute_pairwise(runs_tool, has_tools=True)
     pw_base.to_csv(config.DATA_DIR / "pairwise_metrics_base.csv", index=False)
@@ -32,7 +37,6 @@ def main():
 
     fs_base = family_summary(ts_base, has_tools=False)
     fs_tool = family_summary(ts_tool, has_tools=True)
-
     fs_base["planner"] = "base"
     fs_tool["planner"] = "tool"
     pd.concat([fs_base, fs_tool], ignore_index=True) \
@@ -48,7 +52,7 @@ def main():
     with (config.DATA_DIR / "statistical_results.json").open("w") as f:
         json.dump(test_results, f, indent=2)
 
-    _print_section("Hypothesis tests")
+    _print_section("Hypothesis tests (Jaccard + Semantic + H2.4 comparison)")
     print(json.dumps(test_results, indent=2))
 
     generate_all_figures(pw_base, ts_base, fs_base,

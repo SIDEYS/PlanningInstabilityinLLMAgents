@@ -1,6 +1,6 @@
 {
   "base": {
-    "H2_1": {
+    "H2_1_jaccard": {
       "action_sim": {
         "observed_diff": -0.044642857142857206,
         "p_value": 0.10818918108189181,
@@ -18,7 +18,7 @@
         "alternative": "less"
       }
     },
-    "H2_2": {
+    "H2_2_jaccard": {
       "action_sim": {
         "metric": "action_sim",
         "rho": -0.09885774345945234,
@@ -34,7 +34,7 @@
         "n": 32
       }
     },
-    "H2_3": {
+    "H2_3_jaccard": {
       "study_vs_research_step_diff": {
         "observed_diff": 0.04166666666666663,
         "p_value": 0.384961503849615,
@@ -62,11 +62,92 @@
         "p_value": 0.5091644830894893,
         "rho1": -0.09885774345945234,
         "rho2": 0.07404360971988655
-      }
+      },
+      "sim_metric_used": "action_sim"
+    },
+    "H2_1_semantic": {
+      "observed_diff": -0.00862852856516827,
+      "p_value": 0.32356764323567644,
+      "n_a": 16,
+      "n_b": 16,
+      "cohens_d": -0.1561044842730832,
+      "alternative": "less"
+    },
+    "H2_2_semantic": {
+      "metric": "semantic_sim",
+      "rho": -0.3714168149807578,
+      "p_value": 0.018175095523366987,
+      "alternative": "less",
+      "n": 32
+    },
+    "H2_3_semantic": {
+      "study_vs_research_step_diff": {
+        "observed_diff": 0.04166666666666663,
+        "p_value": 0.384961503849615,
+        "n_a": 8,
+        "n_b": 8,
+        "cohens_d": 0.16666666666666652,
+        "alternative": "greater"
+      },
+      "rho_jaccard": {
+        "metric": "semantic_sim",
+        "rho": -0.3714168149807578,
+        "p_value": 0.018175095523366987,
+        "alternative": "less",
+        "n": 32
+      },
+      "rho_step_diff": {
+        "metric": "step_diff",
+        "rho": 0.07404360971988655,
+        "p_value": 0.3435686289817884,
+        "alternative": "greater",
+        "n": 32
+      },
+      "fisher_z_dissociation": {
+        "z": -1.767792335088028,
+        "p_value": 0.07709562678833803,
+        "rho1": -0.3714168149807578,
+        "rho2": 0.07404360971988655
+      },
+      "sim_metric_used": "semantic_sim"
+    },
+    "H2_4": {
+      "h21_under_jaccard": {
+        "observed_diff": -0.044642857142857206,
+        "p_value": 0.10818918108189181,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": -0.4384573966297705,
+        "alternative": "less"
+      },
+      "h21_under_semantic": {
+        "observed_diff": -0.00862852856516827,
+        "p_value": 0.32356764323567644,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": -0.1561044842730832,
+        "alternative": "less"
+      },
+      "h22_under_jaccard": {
+        "metric": "action_sim",
+        "rho": -0.09885774345945234,
+        "p_value": 0.295186293449353,
+        "alternative": "less",
+        "n": 32
+      },
+      "h22_under_semantic": {
+        "metric": "semantic_sim",
+        "rho": -0.3714168149807578,
+        "p_value": 0.018175095523366987,
+        "alternative": "less",
+        "n": 32
+      },
+      "h21_effect_size_improved_by_semantic": false,
+      "h22_correlation_improved_by_semantic": true
     }
   },
   "tool": {
-    "H2_1": {
+    "H2_1_jaccard": {
       "action_sim": {
         "observed_diff": 0.04791666666666661,
         "p_value": 0.9464053594640536,
@@ -84,7 +165,7 @@
         "alternative": "less"
       }
     },
-    "H2_2": {
+    "H2_2_jaccard": {
       "action_sim": {
         "metric": "action_sim",
         "rho": -0.102507849126352,
@@ -100,7 +181,7 @@
         "n": 32
       }
     },
-    "H2_3": {
+    "H2_3_jaccard": {
       "study_vs_research_step_diff": {
         "observed_diff": -0.4375,
         "p_value": 1.0,
@@ -128,7 +209,88 @@
         "p_value": 0.04406181399899478,
         "rho1": -0.102507849126352,
         "rho2": 0.4018912329810118
-      }
+      },
+      "sim_metric_used": "action_sim"
+    },
+    "H2_1_semantic": {
+      "observed_diff": 0.004905567814906364,
+      "p_value": 0.5941405859414058,
+      "n_a": 16,
+      "n_b": 16,
+      "cohens_d": 0.09081186288694583,
+      "alternative": "less"
+    },
+    "H2_2_semantic": {
+      "metric": "semantic_sim",
+      "rho": -0.2746471090012757,
+      "p_value": 0.06409848067100167,
+      "alternative": "less",
+      "n": 32
+    },
+    "H2_3_semantic": {
+      "study_vs_research_step_diff": {
+        "observed_diff": -0.4375,
+        "p_value": 1.0,
+        "n_a": 8,
+        "n_b": 8,
+        "cohens_d": -2.504873298971914,
+        "alternative": "greater"
+      },
+      "rho_jaccard": {
+        "metric": "semantic_sim",
+        "rho": -0.2746471090012757,
+        "p_value": 0.06409848067100167,
+        "alternative": "less",
+        "n": 32
+      },
+      "rho_step_diff": {
+        "metric": "step_diff",
+        "rho": 0.4018912329810118,
+        "p_value": 0.01130143270874802,
+        "alternative": "greater",
+        "n": 32
+      },
+      "fisher_z_dissociation": {
+        "z": -2.695167310520478,
+        "p_value": 0.007035329487073083,
+        "rho1": -0.2746471090012757,
+        "rho2": 0.4018912329810118
+      },
+      "sim_metric_used": "semantic_sim"
+    },
+    "H2_4": {
+      "h21_under_jaccard": {
+        "observed_diff": 0.04791666666666661,
+        "p_value": 0.9464053594640536,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": 0.6044265809117814,
+        "alternative": "less"
+      },
+      "h21_under_semantic": {
+        "observed_diff": 0.004905567814906364,
+        "p_value": 0.5941405859414058,
+        "n_a": 16,
+        "n_b": 16,
+        "cohens_d": 0.09081186288694583,
+        "alternative": "less"
+      },
+      "h22_under_jaccard": {
+        "metric": "action_sim",
+        "rho": -0.102507849126352,
+        "p_value": 0.28832819375660934,
+        "alternative": "less",
+        "n": 32
+      },
+      "h22_under_semantic": {
+        "metric": "semantic_sim",
+        "rho": -0.2746471090012757,
+        "p_value": 0.06409848067100167,
+        "alternative": "less",
+        "n": 32
+      },
+      "h21_effect_size_improved_by_semantic": false,
+      "h22_correlation_improved_by_semantic": true
     }
   }
 }

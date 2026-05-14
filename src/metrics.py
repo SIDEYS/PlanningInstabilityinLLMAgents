@@ -1,11 +1,39 @@
+"""
+Pairwise plan-comparison metrics.
+
+Lexical metrics  : Jaccard, sequence similarity, step diff, exact match
+Semantic metric  : embedding-based action similarity (Report 7 addition,
+                   addresses Prof. Jensen's concern about assessing the
+                   similarity of plans expressed in natural language).
+"""
 import json
 from itertools import combinations
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+from scipy.optimize import linear_sum_assignment
 
 
-# ---------------- Core distance functions ----------------
+# ------------------------------------------------------------------ #
+#  Embedder (lazy-loaded so the import cost is paid only when needed) #
+# ------------------------------------------------------------------ #
+
+_EMBEDDER = None
+
+
+def _get_embedder():
+    global _EMBEDDER
+    if _EMBEDDER is None:
+        from sentence_transformers import SentenceTransformer
+        _EMBEDDER = SentenceTransformer("all-MiniLM-L6-v2")
+    return _EMBEDDER
+
+
+# ------------------------------------------------------------------ #
+#  Lexical metrics                                                    #
+# ------------------------------------------------------------------ #
+
 def jaccard(a: set, b: set) -> float:
     if not a and not b:
         return 1.0
@@ -24,7 +52,9 @@ def edit_distance(seq_a: list, seq_b: list) -> int:
             if seq_a[i - 1] == seq_b[j - 1]:
                 dp[i][j] = dp[i - 1][j - 1]
             else:
-                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+                dp[i][j] = 1 + min(dp[i - 1][j],
+                                   dp[i][j - 1],
+                                   dp[i - 1][j - 1])
     return dp[m][n]
 
 
@@ -48,6 +78,37 @@ def tool_agreement(plan_a: list, plan_b: list) -> float:
     return matches / n
 
 
+# ------------------------------------------------------------------ #
+#  Semantic metric (Report 7 addition)                                #
+# ------------------------------------------------------------------ #
+
+def semantic_action_similarity(actions_a: list, actions_b: list) -> float:
+
+    if not actions_a or not actions_b:
+        return 0.0
+
+    # Convert snake_case to natural phrases so the encoder reads them well.
+    readable_a = [a.replace("_", " ") for a in actions_a]
+    readable_b = [b.replace("_", " ") for b in actions_b]
+
+    model = _get_embedder()
+    emb_a = model.encode(readable_a, normalize_embeddings=True,
+                         show_progress_bar=False)
+    emb_b = model.encode(readable_b, normalize_embeddings=True,
+                         show_progress_bar=False)
+
+    sim_matrix = emb_a @ emb_b.T                            # cosine sim
+    row_ind, col_ind = linear_sum_assignment(-sim_matrix)    # maximise
+    matched = sim_matrix[row_ind, col_ind]
+
+    max_len = max(len(actions_a), len(actions_b))
+    return float(matched.sum() / max_len)
+
+
+# ------------------------------------------------------------------ #
+#  Plan comparison                                                    #
+# ------------------------------------------------------------------ #
+
 def _actions_of(steps: list) -> list:
     return [s.get("action", "") for s in steps]
 
@@ -56,17 +117,21 @@ def compare_plans(steps_a: list, steps_b: list, has_tools: bool) -> dict:
     actions_a = _actions_of(steps_a)
     actions_b = _actions_of(steps_b)
     out = {
-        "action_sim":  jaccard(set(actions_a), set(actions_b)),
-        "seq_sim":     sequence_similarity(actions_a, actions_b),
-        "step_diff":   abs(len(steps_a) - len(steps_b)),
-        "exact_match": int(steps_a == steps_b),
+        "action_sim":   jaccard(set(actions_a), set(actions_b)),
+        "seq_sim":      sequence_similarity(actions_a, actions_b),
+        "semantic_sim": semantic_action_similarity(actions_a, actions_b),
+        "step_diff":    abs(len(steps_a) - len(steps_b)),
+        "exact_match":  int(steps_a == steps_b),
     }
     if has_tools:
         out["tool_agree"] = tool_agreement(steps_a, steps_b)
     return out
 
 
-# ---------------- Loaders / aggregators ----------------
+# ------------------------------------------------------------------ #
+#  Loaders / aggregators                                              #
+# ------------------------------------------------------------------ #
+
 def load_runs(path: Path) -> dict:
     by_task: dict = {}
     with path.open("r") as f:
@@ -93,14 +158,16 @@ def compute_pairwise(runs_path: Path, has_tools: bool) -> pd.DataFrame:
 
 
 def task_summary(pairwise: pd.DataFrame, has_tools: bool) -> pd.DataFrame:
-    cols = ["action_sim", "seq_sim", "step_diff", "exact_match"]
+    cols = ["action_sim", "seq_sim", "semantic_sim",
+            "step_diff", "exact_match"]
     if has_tools:
         cols.append("tool_agree")
     return pairwise.groupby(["task_id", "family"])[cols].mean().reset_index()
 
 
 def family_summary(task_sum: pd.DataFrame, has_tools: bool) -> pd.DataFrame:
-    cols = ["action_sim", "seq_sim", "step_diff", "exact_match"]
+    cols = ["action_sim", "seq_sim", "semantic_sim",
+            "step_diff", "exact_match"]
     if has_tools:
         cols.append("tool_agree")
     return task_sum.groupby("family")[cols].mean().reset_index()
