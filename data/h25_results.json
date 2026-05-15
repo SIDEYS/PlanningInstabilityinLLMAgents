@@ -1,0 +1,202 @@
+{
+  "temperature": 0.7,
+  "n_samples": 3,
+  "subset_task_ids": [
+    "T1",
+    "T3",
+    "T4",
+    "T5",
+    "T7",
+    "T8",
+    "T10",
+    "T12"
+  ],
+  "temp07": {
+    "base": {
+      "jaccard": {
+        "rho_J": {
+          "metric": "action_sim",
+          "rho": 0.049088069367381595,
+          "p_value": 0.5459461906584021,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.1831983729065748,
+          "p_value": 0.33205560854471095,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -0.2152919488245342,
+          "p_value": 0.8295397063656056,
+          "rho1": 0.049088069367381595,
+          "rho2": 0.1831983729065748
+        }
+      },
+      "semantic": {
+        "rho_J": {
+          "metric": "semantic_sim",
+          "rho": -0.14638501094227999,
+          "p_value": 0.3647119624796933,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.1831983729065748,
+          "p_value": 0.33205560854471095,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -0.5260992951528175,
+          "p_value": 0.5988192183729415,
+          "rho1": -0.14638501094227999,
+          "rho2": 0.1831983729065748
+        }
+      }
+    },
+    "tool": {
+      "jaccard": {
+        "rho_J": {
+          "metric": "action_sim",
+          "rho": -0.528312335697959,
+          "p_value": 0.0891521499973422,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.8385254915624212,
+          "p_value": 0.004646081453870625,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -2.8523540504014355,
+          "p_value": 0.004339673563389157,
+          "rho1": -0.528312335697959,
+          "rho2": 0.8385254915624212
+        }
+      },
+      "semantic": {
+        "rho_J": {
+          "metric": "semantic_sim",
+          "rho": -0.65,
+          "p_value": 0.04051017578124995,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.8385254915624212,
+          "p_value": 0.004646081453870625,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -3.1488137023245515,
+          "p_value": 0.0016393466710185045,
+          "rho1": -0.65,
+          "rho2": 0.8385254915624212
+        }
+      }
+    }
+  },
+  "temp00_reference": {
+    "base": {
+      "jaccard": {
+        "rho_J": {
+          "metric": "action_sim",
+          "rho": 0.245440346836908,
+          "p_value": 0.7210263538524413,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.2581988897471611,
+          "p_value": 0.26848166219337893,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -0.021539271330488073,
+          "p_value": 0.982815476729954,
+          "rho1": 0.245440346836908,
+          "rho2": 0.2581988897471611
+        }
+      },
+      "semantic": {
+        "rho_J": {
+          "metric": "semantic_sim",
+          "rho": -0.29452841620428954,
+          "p_value": 0.2394324545242278,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.2581988897471611,
+          "p_value": 0.26848166219337893,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -0.8976050991139856,
+          "p_value": 0.36939611959286567,
+          "rho1": -0.29452841620428954,
+          "rho2": 0.2581988897471611
+        }
+      }
+    },
+    "tool": {
+      "jaccard": {
+        "rho_J": {
+          "metric": "action_sim",
+          "rho": -0.44721359549995787,
+          "p_value": 0.1332848516900345,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.6197797868009123,
+          "p_value": 0.05060578104289712,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -1.906630916792197,
+          "p_value": 0.05656839860915319,
+          "rho1": -0.44721359549995787,
+          "rho2": 0.6197797868009123
+        }
+      },
+      "semantic": {
+        "rho_J": {
+          "metric": "semantic_sim",
+          "rho": -0.44721359549995787,
+          "p_value": 0.1332848516900345,
+          "alternative": "less",
+          "n": 8
+        },
+        "rho_S": {
+          "metric": "step_diff",
+          "rho": 0.6197797868009123,
+          "p_value": 0.05060578104289712,
+          "alternative": "greater",
+          "n": 8
+        },
+        "fisher_z": {
+          "z": -1.906630916792197,
+          "p_value": 0.05656839860915319,
+          "rho1": -0.44721359549995787,
+          "rho2": 0.6197797868009123
+        }
+      }
+    }
+  }
+}
